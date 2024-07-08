@@ -16,6 +16,9 @@ public class Notice {
     @Column(name = "notice_id", updatable = false)
     private Long noticeId;
 
+    @Column(nullable = false)
+    private String content;
+
     @ManyToOne
     @JoinColumn(name = "post_id", updatable = false)
     private Post post;

@@ -39,6 +39,9 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(name = "info_agree", nullable = false)
+    private Boolean infoAgree;
+
     @ManyToOne
     @JoinColumn(name = "member_id", updatable = false)
     private Member member;
