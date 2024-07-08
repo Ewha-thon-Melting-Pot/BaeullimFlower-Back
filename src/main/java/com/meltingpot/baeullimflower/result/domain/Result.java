@@ -21,11 +21,11 @@ public class Result extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
-    private Member member;
+    private Member manager;
 }

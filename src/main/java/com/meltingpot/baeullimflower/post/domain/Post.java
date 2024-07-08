@@ -42,7 +42,7 @@ public class Post extends BaseTimeEntity {
     @Column(name = "info_agree", nullable = false)
     private Boolean infoAgree;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
-    private Member member;
+    private Member writer;
 }

@@ -16,11 +16,11 @@ public class Vote {
     @Column(name = "vote_id", updatable = false)
     private Long voteId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", updatable = false)
     private Post post;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
-    private Member member;
+    private Member user;
 }
