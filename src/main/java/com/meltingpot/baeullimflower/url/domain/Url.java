@@ -19,6 +19,6 @@ public class Url {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "post_id", updatable = false)
+    @JoinColumn(name = "post_id", updatable = false)
     private Post post;
 }
