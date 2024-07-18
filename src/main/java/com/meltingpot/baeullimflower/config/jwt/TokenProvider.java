@@ -39,10 +39,10 @@ public class TokenProvider {
                 .setIssuedAt(now)
                 // 내용 - 토큰 만료 시간(exp): expiry 멤버 변수값
                 .setExpiration(expiry)
-                // 내용 - 토큰 대상자(aud): 사용자 학번
-                .setAudience(member.getStudentNum())
-                // 내용 - 토큰 제목(sub): 사용자 권한
-                .setSubject(String.valueOf(member.getRole()))
+                // 내용 - 토큰 제목(sub): 사용자 학번
+                .setSubject(member.getStudentNum())
+                // 내용 - 클레임 role: 사용자 권한
+                .claim("role", member.getRole().toString())
                 // 내용 - 클레임 id: 사용자 id
                 .claim("id",member.getMemberId())
                 // 서명: 비밀값과 함께 해시값을 HS256 방식으로 암호화
@@ -67,10 +67,11 @@ public class TokenProvider {
     // 토큰 기반으로 인증 정보를 가져오는 메서드
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
+        System.out.println(claims);
         Set<SimpleGrantedAuthority> authorities = Collections.singleton(new
-                SimpleGrantedAuthority("ROLE_" + claims.getSubject()));
+                SimpleGrantedAuthority("ROLE_" + claims.get("role", String.class)));
 
-        return new UsernamePasswordAuthenticationToken(new User(claims.getAudience().toString(),"",authorities),"",authorities);
+        return new UsernamePasswordAuthenticationToken(new User(claims.getSubject(),"",authorities),"",authorities);
     }
 
     // 토큰 기반으로 유저 ID를 가져오는 메서드
