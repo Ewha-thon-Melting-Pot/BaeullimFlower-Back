@@ -1,13 +1,9 @@
 package com.meltingpot.baeullimflower.global.config;
 
-import com.meltingpot.baeullimflower.global.jwt.JwtProperties;
 import com.meltingpot.baeullimflower.global.jwt.TokenProvider;
-import com.meltingpot.baeullimflower.member.service.MemberDetailService;
-import com.meltingpot.baeullimflower.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -21,8 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @Configuration
 public class WebSecurityConfig {
-    private final MemberDetailService memberDetailService;
-
     //스프링 시큐리티 기능 비활성화
     @Bean
     public WebSecurityCustomizer configure(){

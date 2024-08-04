@@ -20,6 +20,7 @@ public class MemberService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenProvider tokenProvider;
 
+    // 회원가입
     public Long save(SignupRequestDto requestDto){
         // 학번 중복 체크
         if(existsByStudentNum(requestDto.getStudentNum())){
@@ -36,6 +37,7 @@ public class MemberService {
                 .build()).getMemberId();
     }
 
+    // 로그인
     public LoginResponseDto login(String studentNum, String password){
         // 입력받은 학번이 존재하는지 확인
         Member member = findByStudentNum(studentNum);
@@ -55,6 +57,9 @@ public class MemberService {
 
     }
 
+
+    /* Transactional 함수들 */
+
     // memberId로 Member 찾기
     @Transactional(readOnly = true)
     public Member findById(Long memberId){
@@ -72,6 +77,5 @@ public class MemberService {
     public Boolean existsByStudentNum(String studentNum) {
         return memberRepository.existsByStudentNum(studentNum);
     }
-
 
 }
