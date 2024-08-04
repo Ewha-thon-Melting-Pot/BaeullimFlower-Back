@@ -1,4 +1,4 @@
-package com.meltingpot.baeullimflower.global.entity;
+package com.meltingpot.baeullimflower.global;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

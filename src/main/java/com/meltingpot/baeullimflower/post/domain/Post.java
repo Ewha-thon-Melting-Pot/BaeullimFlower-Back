@@ -1,6 +1,6 @@
 package com.meltingpot.baeullimflower.post.domain;
 
-import com.meltingpot.baeullimflower.global.entity.BaseTimeEntity;
+import com.meltingpot.baeullimflower.global.BaseTimeEntity;
 import com.meltingpot.baeullimflower.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
