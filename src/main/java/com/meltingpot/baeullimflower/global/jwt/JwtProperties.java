@@ -1,4 +1,4 @@
-package com.meltingpot.baeullimflower.config.jwt;
+package com.meltingpot.baeullimflower.global.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

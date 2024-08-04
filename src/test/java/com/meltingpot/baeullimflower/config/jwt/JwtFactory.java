@@ -1,5 +1,6 @@
 package com.meltingpot.baeullimflower.config.jwt;
 
+import com.meltingpot.baeullimflower.global.jwt.JwtProperties;
 import com.meltingpot.baeullimflower.member.domain.Role;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;

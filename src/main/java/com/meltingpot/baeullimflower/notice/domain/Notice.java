@@ -1,7 +1,7 @@
 package com.meltingpot.baeullimflower.notice.domain;
 
 
-import com.meltingpot.baeullimflower.global.entity.BaseTimeEntity;
+import com.meltingpot.baeullimflower.global.BaseTimeEntity;
 import com.meltingpot.baeullimflower.member.domain.Member;
 import com.meltingpot.baeullimflower.post.domain.Post;
 import jakarta.persistence.*;

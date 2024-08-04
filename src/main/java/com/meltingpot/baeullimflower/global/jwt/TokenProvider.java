@@ -1,6 +1,7 @@
-package com.meltingpot.baeullimflower.config.jwt;
+package com.meltingpot.baeullimflower.global.jwt;
 
 import com.meltingpot.baeullimflower.member.domain.Member;
+import com.meltingpot.baeullimflower.member.domain.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -33,7 +34,7 @@ public class TokenProvider {
         return Jwts.builder()
                 // 헤더 - 토큰 타입(typ): JWT
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                // 내용 - 토큰 발급자(iss): meltingpot@gmail.com (properties에서 설정한 값)
+                // 내용 - 토큰 발급자(iss): properties에서 설정한 값
                 .setIssuer(jwtProperties.getIssuer())
                 // 내용 - 토큰이 발급된 시간(iat): 현재시간
                 .setIssuedAt(now)
@@ -74,11 +75,12 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(new User(claims.getSubject(),"",authorities),"",authorities);
     }
 
-    // 토큰 기반으로 유저 ID를 가져오는 메서드
-    public Long getUserId(String token){
+    // 토큰 기반으로 멤버 ID를 가져오는 메서드
+    public Long getMemberId(String token){
         Claims claims = getClaims(token);
         return claims.get("id", Long.class);
     }
+
 
     // 클레임을 가져오는 메서드
     private Claims getClaims(String token){
