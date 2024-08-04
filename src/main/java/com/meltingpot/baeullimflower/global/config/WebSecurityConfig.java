@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> {
                     // 회원가입, 로그인은 항상 접근 가능
                     requests.requestMatchers("members/signup", "/members/login").permitAll();
+                    requests.requestMatchers("/admin/**").hasRole("Manager");
 //                    requests.requestMatchers(HttpMethod.POST).authenticated();
                     // 다른 모든 요청은 막기
                     requests.anyRequest().authenticated();
