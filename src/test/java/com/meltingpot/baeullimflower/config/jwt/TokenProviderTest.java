@@ -1,5 +1,7 @@
 package com.meltingpot.baeullimflower.config.jwt;
 
+import com.meltingpot.baeullimflower.global.jwt.JwtProperties;
+import com.meltingpot.baeullimflower.global.jwt.TokenProvider;
 import com.meltingpot.baeullimflower.member.domain.College;
 import com.meltingpot.baeullimflower.member.domain.Member;
 import com.meltingpot.baeullimflower.member.domain.Role;
@@ -122,7 +124,7 @@ class TokenProviderTest {
                 .createToken(jwtProperties);
 
         // when: getUserId() 메서드를 호출해 유저ID 반환
-        Long userIdByToken = tokenProvider.getUserId(token);
+        Long userIdByToken = tokenProvider.getMemberId(token);
 
         // then: 반환받은 유저ID가 given절에서 설정한 유저ID와 같은지 확인
         assertThat(userIdByToken).isEqualTo(userId);
