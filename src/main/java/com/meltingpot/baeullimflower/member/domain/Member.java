@@ -58,13 +58,13 @@ public class Member implements UserDetails { // UserDetails 상속받아 인증 
     //사용자의 id 반환(고유한 값)
     @Override
     public String getUsername() {
-        return getStudentNum();
+        return studentNum;
     }
 
     //사용자의 패스워드 반환
     @Override
     public String getPassword(){
-        return getPassword();
+        return password;
     }
 
     //계정 만료 여부 반환
