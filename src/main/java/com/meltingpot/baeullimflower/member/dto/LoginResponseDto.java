@@ -1,6 +1,5 @@
 package com.meltingpot.baeullimflower.member.dto;
 
-import com.meltingpot.baeullimflower.member.domain.College;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

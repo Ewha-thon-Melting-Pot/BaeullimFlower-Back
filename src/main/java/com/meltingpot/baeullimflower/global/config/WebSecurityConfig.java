@@ -4,6 +4,7 @@ import com.meltingpot.baeullimflower.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -42,21 +43,12 @@ public class WebSecurityConfig {
                     // 다른 모든 요청은 막기
                     requests.anyRequest().authenticated();
                 })
-                // jwt를 사용한는 경우 씀
+                // jwt를 사용하므로 sateless
                 .sessionManagement(
                         sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
-
-    //인증 관리자 관련 설정
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() throws Exception{
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(memberDetailService); //사용자 서비스 설정
-        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
-        return daoAuthenticationProvider;
     }
 
     //패스워드 인코더로 사용할 빈 등록
