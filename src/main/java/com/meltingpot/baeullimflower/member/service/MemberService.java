@@ -9,6 +9,7 @@ import com.meltingpot.baeullimflower.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 
@@ -20,6 +21,12 @@ public class MemberService {
     private final TokenProvider tokenProvider;
 
     public Long save(SignupRequestDto requestDto){
+        // 학번 중복 체크
+        if(existsByStudentNum(requestDto.getStudentNum())){
+            throw new RuntimeException("이미 존재하는 학번입니다. 학번: "+requestDto.getStudentNum());
+        }
+
+        // 중복되지 않는다면 저장
         return memberRepository.save(Member.builder()
                 .name(requestDto.getName())
                 .studentNum(requestDto.getStudentNum())
@@ -48,12 +55,22 @@ public class MemberService {
 
     }
 
+    // memberId로 Member 찾기
+    @Transactional(readOnly = true)
     public Member findById(Long memberId){
         return memberRepository.findById(memberId).orElseThrow(()-> new IllegalArgumentException("Unexpected Member"));
     }
 
+    // 학번으로 Member 찾기
+    @Transactional(readOnly = true)
     public Member findByStudentNum(String studentNum) {
         return memberRepository.findByStudentNum(studentNum).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 학번입니다."));
+    }
+
+    // 학번 중복 체크
+    @Transactional(readOnly = true)
+    public Boolean existsByStudentNum(String studentNum) {
+        return memberRepository.existsByStudentNum(studentNum);
     }
 
 
