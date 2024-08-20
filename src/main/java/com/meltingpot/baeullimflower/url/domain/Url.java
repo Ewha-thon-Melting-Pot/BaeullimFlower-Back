@@ -2,13 +2,13 @@ package com.meltingpot.baeullimflower.url.domain;
 
 import com.meltingpot.baeullimflower.post.domain.Post;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Builder
+@AllArgsConstructor
 public class Url {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +19,6 @@ public class Url {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "post_id", updatable = false)
+    @JoinColumn(name = "post_id", updatable = false)
     private Post post;
 }
