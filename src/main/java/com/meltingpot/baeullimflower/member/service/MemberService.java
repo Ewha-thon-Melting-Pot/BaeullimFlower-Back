@@ -56,7 +56,7 @@ public class MemberService {
         - 액세스토큰: 30분
         - 리프레시토큰: 7일
         */
-        String accessToken = jwtProvider.generateToken(member, Duration.ofMinutes(1));
+        String accessToken = jwtProvider.generateToken(member, Duration.ofMinutes(30));
         String refreshToken = jwtProvider.generateToken(member, Duration.ofDays(7));
 
         // 리프레시 토큰 저장
