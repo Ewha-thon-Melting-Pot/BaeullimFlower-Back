@@ -48,12 +48,13 @@ public class SecurityConfig {
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
                 //인증 인가 설정
                 .authorizeHttpRequests(requests -> {
-                    /* 회원가입, 로그인 요청은 항상 접근 가능 */
-                    requests.requestMatchers("members/signup","members/login").permitAll();
-                    /* 관리자 관련 요청은 관리자 권한을 가지고 있어야지만 접근 가능 */
-                    requests.requestMatchers("admin/**").hasRole("Manager");
-                    /* 다른 모든 요청은 막기 */
-                    requests.anyRequest().authenticated();
+//                    /* 회원가입, 로그인 요청은 항상 접근 가능 */
+//                    requests.requestMatchers("members/signup","members/login").permitAll();
+//                    /* 관리자 관련 요청은 관리자 권한을 가지고 있어야지만 접근 가능 */
+//                    requests.requestMatchers("admin/**").hasRole("Manager");
+//                    /* 다른 모든 요청은 막기 */
+//                    requests.anyRequest().authenticated();
+                    requests.anyRequest().permitAll();
                 })
                 // jwt를 사용하므로 sateless
                 .sessionManagement(
