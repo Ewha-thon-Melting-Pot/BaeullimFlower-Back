@@ -1,7 +1,10 @@
 package com.meltingpot.baeullimflower.member.service;
 
+import com.meltingpot.baeullimflower.global.jwt.JwtAuthenticationProvider;
 import com.meltingpot.baeullimflower.member.domain.Member;
 import com.meltingpot.baeullimflower.member.domain.Role;
+import com.meltingpot.baeullimflower.member.dto.LoginRequestDto;
+import com.meltingpot.baeullimflower.member.dto.LoginResponseDto;
 import com.meltingpot.baeullimflower.member.dto.SignupRequestDto;
 import com.meltingpot.baeullimflower.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtAuthenticationProvider jwtProvider;
 
     // 회원가입
     public Long signup(SignupRequestDto requestDto){
@@ -32,11 +38,44 @@ public class MemberService {
                 .build()).getMemberId();
     }
 
+    // 로그인
+    public LoginResponseDto login(LoginRequestDto requestDto){
+        // 사용자 가져오기
+        Member member = findByStudentNum(requestDto.getStudentNum());
+
+        // 비밀번호 일치여부 확인
+        if(!bCryptPasswordEncoder.matches(requestDto.getPassword(), member.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        /*
+        로그인 성공 -> 토큰 생성
+        - 액세스토큰: 30분
+        - 리프레시토큰: 7일
+        */
+        String accessToken = jwtProvider.generateToken(member, Duration.ofMinutes(1));
+        String refreshToken = jwtProvider.generateToken(member, Duration.ofDays(7));
+
+        // 리프레시 토큰 저장
+
+        return LoginResponseDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+
     /* Transactional 함수들 */
 
     // 학번 중복 체크
     @Transactional(readOnly = true)
     public Boolean existsByStudentNum(String studentNum){
         return memberRepository.existsByStudentNum(studentNum);
+    }
+
+    // 학번으로 사용자 조회
+    @Transactional(readOnly = true)
+    public Member findByStudentNum(String studentNum){
+        return memberRepository.findByStudentNum(studentNum);
     }
 }
