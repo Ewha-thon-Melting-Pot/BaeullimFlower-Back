@@ -8,6 +8,9 @@ import com.meltingpot.baeullimflower.member.dto.LoginResponseDto;
 import com.meltingpot.baeullimflower.member.dto.SignupRequestDto;
 import com.meltingpot.baeullimflower.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +65,15 @@ public class MemberService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    // 현재 인증된(로그인한) 유저의 id를 찾아 반환
+    public static Long getCurrentMemberId(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || authentication.getName() == null){
+            throw new AuthenticationServiceException("인증된 사용자정보가 없습니다.");
+        }
+        return Long.valueOf(authentication.getName());
     }
 
 
