@@ -2,6 +2,7 @@ package com.meltingpot.baeullimflower.member.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,13 @@ public class Member{
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Builder
+    public Member(String name, String studentNum, College college, String password, Role role) {
+        this.name = name;
+        this.studentNum = studentNum;
+        this.college = college;
+        this.password = password;
+        this.role = role;
+    }
 }
