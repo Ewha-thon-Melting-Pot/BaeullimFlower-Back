@@ -1,5 +1,7 @@
 package com.meltingpot.baeullimflower.post.service;
 
+import com.meltingpot.baeullimflower.global.apiResponse.code.status.ErrorStatus;
+import com.meltingpot.baeullimflower.global.apiResponse.exception.GeneralException;
 import com.meltingpot.baeullimflower.post.Repository.PostRepository;
 import com.meltingpot.baeullimflower.post.converter.PostConverter;
 import com.meltingpot.baeullimflower.post.domain.Post;
@@ -16,25 +18,31 @@ public class PostService {
     private final PostConverter postConverter;
     private final PostRepository postRepository;
     @Transactional
-    public Post createPost(PostRequestDto.PostCreateDto request) {
-        if (request.getEmail() == null || request.getEmail().isEmpty()) {
-        //GeneralException -> EMAIL_REQUIRED
-        }
-
-        // 동의하지 않은 경우 예외 처리
-        if (request.getInfoAgree() == null || !request.getInfoAgree()) {
-        //GeneralException -> INFOAGREE_REQUIRED
-        }
-
+    public PostResponseDto.PostDto createPost(PostRequestDto.PostCreateDto request) {
         Post post = postConverter.toPostEntity(request);
         postRepository.save(post);
+        PostResponseDto.PostDto postDto = postConverter.toPostDto(post);
 
-        return post;
+        return postDto;
+    }
+
+    public PostResponseDto.PostPreDto prePost(PostRequestDto.PostPreDto request) {
+        String email = request.getEmail();
+        Boolean infoAgree = request.getInfoAgree();
+
+        if (email == null || email.isEmpty()) {
+            throw new GeneralException(ErrorStatus.EMAIL_REQUIRED);
+        }
+        if (infoAgree == null || !infoAgree) {
+            throw new GeneralException(ErrorStatus.AGREE_REQUIRED);
+        }
+
+        PostResponseDto.PostPreDto postPreDto = new PostResponseDto.PostPreDto(email, infoAgree);
+        return postPreDto;
     }
 
     public Post findById(Long postId){
-        return postRepository.findById(postId).orElseThrow(()->new RuntimeException());
-        // 해당 게시물 없을 경우 에러처리 -> GeneralException(POST_NOT_FOUND)
+        return postRepository.findById(postId).orElseThrow(()->new GeneralException(ErrorStatus.POST_NOT_FOUND));
     }
 
     public PostResponseDto.PostDto getPostDetail(Long postId){

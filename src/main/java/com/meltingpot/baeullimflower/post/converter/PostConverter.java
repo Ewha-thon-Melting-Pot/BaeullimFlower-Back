@@ -27,7 +27,7 @@ public class PostConverter {
 
         post.updateUrlList(request.getUrlList());
         return post;
-        }
+    }
 
 
     public PostResponseDto.PostDto toPostDto(Post post) {
@@ -41,7 +41,6 @@ public class PostConverter {
                 .postId(post.getPostId())
                 .status(post.getStatus())
                 .writer(post.getWriter())
-                .email(post.getEmail())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .categrory(post.getCategrory())
