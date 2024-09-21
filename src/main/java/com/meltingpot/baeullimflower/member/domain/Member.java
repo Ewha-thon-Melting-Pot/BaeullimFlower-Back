@@ -1,10 +1,13 @@
 package com.meltingpot.baeullimflower.member.domain;
 
+import com.meltingpot.baeullimflower.vote.domain.Vote;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,6 +32,9 @@ public class Member{
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Vote> voteList;
 
     @Builder
     public Member(String name, String studentNum, College college, String password, Role role) {
