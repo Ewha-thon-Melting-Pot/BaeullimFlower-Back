@@ -15,5 +15,17 @@ public class PostRequestDto {
         private String content;
         private Categrory categrory;
         List<String> urlList;
+        public void setEmail(String email) {
+            this.email = email;
+        }
+        public void setInfoAgree(Boolean infoAgree) {
+            this.infoAgree = infoAgree;
+        }
+    }
+
+    @Getter
+    public static class PostPreDto {
+        private String email;
+        private Boolean infoAgree;
     }
 }

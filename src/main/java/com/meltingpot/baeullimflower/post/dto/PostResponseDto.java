@@ -24,8 +24,6 @@ public class PostResponseDto {
         private Long postId;
         private Member writer;
 
-        private String email;
-
         private Status status;
         private String title;
         private String content;
@@ -38,4 +36,14 @@ public class PostResponseDto {
 
         List<String> urlList;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PostPreDto {
+        private String email;
+        private Boolean infoAgree;
+    }
+
 }
