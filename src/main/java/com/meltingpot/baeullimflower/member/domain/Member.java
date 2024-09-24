@@ -33,6 +33,9 @@ public class Member{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Vote> voteList;
+
     @Builder
     public Member(String name, String studentNum, College college, String password, Role role) {
         this.name = name;

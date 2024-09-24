@@ -1,5 +1,7 @@
 package com.meltingpot.baeullimflower.member.service;
 
+import com.meltingpot.baeullimflower.global.apiResponse.code.status.ErrorStatus;
+import com.meltingpot.baeullimflower.global.apiResponse.exception.GeneralException;
 import com.meltingpot.baeullimflower.global.jwt.JwtAuthenticationProvider;
 import com.meltingpot.baeullimflower.member.domain.Member;
 import com.meltingpot.baeullimflower.member.domain.Role;
@@ -28,7 +30,7 @@ public class MemberService {
     public Long signup(SignupRequestDto requestDto){
         // 학번 중복 체크
         if(existsByStudentNum(requestDto.getStudentNum())){
-            throw new RuntimeException("이미 존재하는 학번입니다.");
+            throw new GeneralException(ErrorStatus.ALREADY_EXIST_STUDENTNUM);
         }
 
         // 중복되지 않는다면 저장
@@ -46,9 +48,14 @@ public class MemberService {
         // 사용자 가져오기
         Member member = findByStudentNum(requestDto.getStudentNum());
 
+        // 학번 존재 여부 확인
+        if(member == null){
+            throw new GeneralException(ErrorStatus.NOT_EXIST_STUDENTNUM);
+        }
+
         // 비밀번호 일치여부 확인
         if(!bCryptPasswordEncoder.matches(requestDto.getPassword(), member.getPassword())){
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new GeneralException(ErrorStatus.MISMATCH_PASSWORD);
         }
 
         /*
@@ -71,7 +78,8 @@ public class MemberService {
     public static Long getCurrentMemberId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication.getName() == null){
-            throw new AuthenticationServiceException("인증된 사용자정보가 없습니다.");
+            throw new GeneralException(ErrorStatus.MEMBER_NOT_FOUND);
+//            throw new AuthenticationServiceException("인증된 사용자정보가 없습니다.");
         }
         return Long.valueOf(authentication.getName());
     }

@@ -19,11 +19,12 @@ public enum ErrorStatus implements BaseErrorCode {
 
 
     // 멤버 관련 에러
-    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
-    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
-    ALREADY_EXIST_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER4003", "이미 존재하는 이메일 입니다."),
-    INVALID_USER(HttpStatus.BAD_REQUEST, "MEMBER4004", "유효하지 않은 사용자 입니다."),
-    INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4005", "유효하지 않은 리프레시 토큰 입니다."),
+    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "인증된 사용자 정보가 없습니다."),
+    ALREADY_EXIST_STUDENTNUM(HttpStatus.BAD_REQUEST, "MEMBER4002", "이미 존재하는 학번 입니다."),
+    NOT_EXIST_STUDENTNUM(HttpStatus.BAD_REQUEST, "MEMBER4003", "존재하지 않는 학번 입니다."),
+    MISMATCH_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4004", "비밀번호가 일치하지 않습니다."),
+    INVALID_USER(HttpStatus.BAD_REQUEST, "MEMBER4005", "유효하지 않은 사용자 입니다."),
+    INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4006", "유효하지 않은 리프레시 토큰 입니다."),
 
     // 게시물 관련 에러
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
