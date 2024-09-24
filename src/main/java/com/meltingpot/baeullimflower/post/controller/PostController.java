@@ -5,6 +5,7 @@ import com.meltingpot.baeullimflower.post.domain.Post;
 import com.meltingpot.baeullimflower.post.dto.PostRequestDto;
 import com.meltingpot.baeullimflower.post.dto.PostResponseDto;
 import com.meltingpot.baeullimflower.post.service.PostService;
+import com.meltingpot.baeullimflower.vote.dto.VoteResponseDto;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +30,22 @@ public class PostController {
         Boolean infoAgree = (Boolean)session.getAttribute("infoAgree");
         request.setEmail(email);
         request.setInfoAgree(infoAgree);
-        return ApiResponse.onSuccess(postService.createPost(request));
+        return ApiResponse.onCreateSuccess(postService.createPost(request));
     }
 
     @GetMapping("")
     public ApiResponse<PostResponseDto.PostDto> getPostDetail(@RequestParam Long postId) {
         return ApiResponse.onSuccess(postService.getPostDetail(postId));
+    }
+
+    @PutMapping("/{postId}/vote/enable")
+    public ApiResponse<VoteResponseDto.VoteCreateDto> enableVote(@PathVariable Long postId) {
+        return ApiResponse.onCreateSuccess(postService.enableVote(postId));
+    }
+
+    @PutMapping("/{postId}/vote/disable")
+    public ApiResponse<VoteResponseDto.VoteDeleteDto> disableVote(@PathVariable Long postId) {
+        return ApiResponse.onDeleteSuccess(postService.disableVote(postId));
     }
 
 }

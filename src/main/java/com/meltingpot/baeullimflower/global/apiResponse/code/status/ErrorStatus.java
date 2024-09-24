@@ -24,11 +24,16 @@ public enum ErrorStatus implements BaseErrorCode {
     ALREADY_EXIST_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER4003", "이미 존재하는 이메일 입니다."),
     INVALID_USER(HttpStatus.BAD_REQUEST, "MEMBER4004", "유효하지 않은 사용자 입니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4005", "유효하지 않은 리프레시 토큰 입니다."),
+
     // 게시물 관련 에러
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
     EMAIL_REQUIRED(HttpStatus.FORBIDDEN,"EMAIL4003","이메일을 입력해주세요"),
     AGREE_REQUIRED(HttpStatus.FORBIDDEN, "AGREE4003","정보 동의해주세요"),
-    PAGE_FORMAT_BAD_REQUEST(HttpStatus.BAD_REQUEST,"PAGE4001","잘못된 페이지 번호 형식입니다");
+    PAGE_FORMAT_BAD_REQUEST(HttpStatus.BAD_REQUEST,"PAGE4001","잘못된 페이지 번호 형식입니다"),
+
+    // 투표 관련 에러
+    ALREADY_VOTED(HttpStatus.BAD_REQUEST, "VOTE4001","이미 투표한 게시물입니다"),
+    NEVER_VOTED(HttpStatus.BAD_REQUEST,"VOTE4002","투표한 적 없는 게시물입니다");
 
     private final HttpStatus httpStatus;
     private final String code;
