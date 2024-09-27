@@ -5,6 +5,7 @@ import com.meltingpot.baeullimflower.post.domain.Post;
 import com.meltingpot.baeullimflower.post.dto.PostRequestDto;
 import com.meltingpot.baeullimflower.post.dto.PostResponseDto;
 import com.meltingpot.baeullimflower.post.service.PostService;
+import com.meltingpot.baeullimflower.vote.domain.Vote;
 import com.meltingpot.baeullimflower.vote.dto.VoteResponseDto;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -38,14 +39,20 @@ public class PostController {
         return ApiResponse.onSuccess(postService.getPostDetail(postId));
     }
 
-    @PutMapping("/{postId}/vote/enable")
-    public ApiResponse<VoteResponseDto.VoteCreateDto> enableVote(@PathVariable Long postId) {
-        return ApiResponse.onCreateSuccess(postService.enableVote(postId));
+    @PutMapping("/{postId}/vote")
+    public ApiResponse<Object> postVote(@PathVariable Long postId) {
+        Object voteResponse = postService.postVote(postId);
+
+        if (voteResponse instanceof VoteResponseDto.VoteCreateDto) {
+            return ApiResponse.onCreateSuccess(voteResponse);
+        }
+
+        if (voteResponse instanceof VoteResponseDto.VoteDeleteDto) {
+            return ApiResponse.onDeleteSuccess(voteResponse);
+        }
+
+        return ApiResponse.onFailure("VOTE4001","Unexpected response type",null);
     }
 
-    @PutMapping("/{postId}/vote/disable")
-    public ApiResponse<VoteResponseDto.VoteDeleteDto> disableVote(@PathVariable Long postId) {
-        return ApiResponse.onDeleteSuccess(postService.disableVote(postId));
-    }
 
 }

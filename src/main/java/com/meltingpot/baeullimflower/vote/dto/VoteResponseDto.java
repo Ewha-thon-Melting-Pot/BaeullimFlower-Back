@@ -15,7 +15,6 @@ public class VoteResponseDto {
         private Long voteId;
         private Long postId;
         private Long memberId;
-        private Integer voteCnt;
     }
 
     @Builder
@@ -24,7 +23,6 @@ public class VoteResponseDto {
     @AllArgsConstructor
     public static class VoteDeleteDto {
         private Long postId;
-        private Integer voteCnt;
     }
 
 }

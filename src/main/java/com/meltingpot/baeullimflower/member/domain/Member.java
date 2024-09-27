@@ -44,7 +44,4 @@ public class Member{
         this.password = password;
         this.role = role;
     }
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Vote> voteList;
 }

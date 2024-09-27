@@ -30,11 +30,9 @@ public enum ErrorStatus implements BaseErrorCode {
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
     EMAIL_REQUIRED(HttpStatus.FORBIDDEN,"EMAIL4003","이메일을 입력해주세요"),
     AGREE_REQUIRED(HttpStatus.FORBIDDEN, "AGREE4003","정보 동의해주세요"),
-    PAGE_FORMAT_BAD_REQUEST(HttpStatus.BAD_REQUEST,"PAGE4001","잘못된 페이지 번호 형식입니다"),
+    PAGE_FORMAT_BAD_REQUEST(HttpStatus.BAD_REQUEST,"PAGE4001","잘못된 페이지 번호 형식입니다");
 
     // 투표 관련 에러
-    ALREADY_VOTED(HttpStatus.BAD_REQUEST, "VOTE4001","이미 투표한 게시물입니다"),
-    NEVER_VOTED(HttpStatus.BAD_REQUEST,"VOTE4002","투표한 적 없는 게시물입니다");
 
     private final HttpStatus httpStatus;
     private final String code;

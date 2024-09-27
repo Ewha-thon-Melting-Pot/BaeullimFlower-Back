@@ -14,6 +14,7 @@ import com.meltingpot.baeullimflower.vote.domain.Vote;
 import com.meltingpot.baeullimflower.vote.dto.VoteResponseDto;
 import com.meltingpot.baeullimflower.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,45 +71,38 @@ public class PostService {
 
     @Transactional
     // 게시물 투표
-    public VoteResponseDto.VoteCreateDto enableVote(Long postId) {
+    public Object postVote(Long postId) {
         String memberId = memberService.getCurrentMemberId().toString();
         Member member = memberRepository.findByStudentNum(memberId);
-
         Post post = findById(postId);
 
-        if(voteRepository.findByMemberAndPost(member, post) != null) {
-            throw new GeneralException(ErrorStatus.ALREADY_VOTED);
+        if(voteRepository.findByMemberAndPost(member, post) != null) { // 이미 투표한 상태 -> 투표 취소
+            post.setVoteCount(post.getVoteCount()-1);
+
+            voteRepository.deleteByMemberAndPost(member, post);
+
+            VoteResponseDto.VoteDeleteDto voteDeleteDto = VoteResponseDto.VoteDeleteDto.builder()
+                    .postId(post.getPostId())
+                    .build();
+
+            return voteDeleteDto;
         }
+        else { // 아직 투표하지 않은 상태 -> 투표
+            post.setVoteCount(post.getVoteCount() + 1);
 
-        post.setVoteCount(post.getVoteCount()+1);
+            Vote vote = Vote.builder()
+                    .member(member)
+                    .post(post)
+                    .build();
+            voteRepository.save(vote);
 
-        Vote vote = Vote.builder()
-                .member(member)
-                .post(post)
-                .build();
-        voteRepository.save(vote);
+            VoteResponseDto.VoteCreateDto voteCreateDto = VoteResponseDto.VoteCreateDto.builder()
+                    .voteId(vote.getVoteId())
+                    .postId(vote.getPost().getPostId())
+                    .memberId(vote.getMember().getMemberId())
+                    .build();
 
-        VoteResponseDto.VoteCreateDto voteCreateDto = new VoteResponseDto.VoteCreateDto(vote.getVoteId(), vote.getPost().getPostId(), vote.getMember().getMemberId(),  vote.getPost().getVoteCount());
-        return voteCreateDto;
-    }
-
-    @Transactional
-    // 게시물 투표 취소
-    public VoteResponseDto.VoteDeleteDto disableVote(Long postId) {
-        String memberId = memberService.getCurrentMemberId().toString();
-        Member member = memberRepository.findByStudentNum(memberId);
-
-        Post post = findById(postId);
-
-        if(voteRepository.findByMemberAndPost(member, post) == null) {
-            throw new GeneralException(ErrorStatus.NEVER_VOTED);
+            return voteCreateDto;
         }
-
-        post.setVoteCount(post.getVoteCount()-1);
-        voteRepository.deleteByMemberAndPost(member, post);
-
-        VoteResponseDto.VoteDeleteDto voteDeleteDto = new VoteResponseDto.VoteDeleteDto(post.getPostId(), post.getVoteCount());
-        return voteDeleteDto;
     }
-
 }
