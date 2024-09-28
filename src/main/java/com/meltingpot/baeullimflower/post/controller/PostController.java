@@ -5,6 +5,8 @@ import com.meltingpot.baeullimflower.post.domain.Post;
 import com.meltingpot.baeullimflower.post.dto.PostRequestDto;
 import com.meltingpot.baeullimflower.post.dto.PostResponseDto;
 import com.meltingpot.baeullimflower.post.service.PostService;
+import com.meltingpot.baeullimflower.vote.domain.Vote;
+import com.meltingpot.baeullimflower.vote.dto.VoteResponseDto;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +31,28 @@ public class PostController {
         Boolean infoAgree = (Boolean)session.getAttribute("infoAgree");
         request.setEmail(email);
         request.setInfoAgree(infoAgree);
-        return ApiResponse.onSuccess(postService.createPost(request));
+        return ApiResponse.onCreateSuccess(postService.createPost(request));
     }
 
     @GetMapping("")
     public ApiResponse<PostResponseDto.PostDto> getPostDetail(@RequestParam Long postId) {
         return ApiResponse.onSuccess(postService.getPostDetail(postId));
     }
+
+    @PutMapping("/{postId}/vote")
+    public ApiResponse<Object> postVote(@PathVariable Long postId) {
+        Object voteResponse = postService.postVote(postId);
+
+        if (voteResponse instanceof VoteResponseDto.VoteCreateDto) {
+            return ApiResponse.onCreateSuccess(voteResponse);
+        }
+
+        if (voteResponse instanceof VoteResponseDto.VoteDeleteDto) {
+            return ApiResponse.onDeleteSuccess(voteResponse);
+        }
+
+        return ApiResponse.onFailure("VOTE4001","Unexpected response type",null);
+    }
+
 
 }

@@ -25,11 +25,14 @@ public enum ErrorStatus implements BaseErrorCode {
     MISMATCH_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4004", "비밀번호가 일치하지 않습니다."),
     INVALID_USER(HttpStatus.BAD_REQUEST, "MEMBER4005", "유효하지 않은 사용자 입니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4006", "유효하지 않은 리프레시 토큰 입니다."),
+
     // 게시물 관련 에러
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
     EMAIL_REQUIRED(HttpStatus.FORBIDDEN,"EMAIL4003","이메일을 입력해주세요"),
     AGREE_REQUIRED(HttpStatus.FORBIDDEN, "AGREE4003","정보 동의해주세요"),
     PAGE_FORMAT_BAD_REQUEST(HttpStatus.BAD_REQUEST,"PAGE4001","잘못된 페이지 번호 형식입니다");
+
+    // 투표 관련 에러
 
     private final HttpStatus httpStatus;
     private final String code;

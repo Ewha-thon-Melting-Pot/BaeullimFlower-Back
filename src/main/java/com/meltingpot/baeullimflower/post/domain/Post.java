@@ -3,6 +3,7 @@ package com.meltingpot.baeullimflower.post.domain;
 import com.meltingpot.baeullimflower.global.entity.BaseTimeEntity;
 import com.meltingpot.baeullimflower.member.domain.Member;
 import com.meltingpot.baeullimflower.url.domain.Url;
+import com.meltingpot.baeullimflower.vote.domain.Vote;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -56,6 +57,9 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<Url> postUrlList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Vote> voteList;
+
     public void updateUrlList(List<String> urls) {
         Set<String> uniqueUrls = new HashSet<>(urls); // 중복 제거
         if (uniqueUrls.isEmpty()) { // URL 리스트가 비어있는 경우
@@ -90,6 +94,7 @@ public class Post extends BaseTimeEntity {
         this.status = status;
     }
 
-
-
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
 }

@@ -1,5 +1,6 @@
 package com.meltingpot.baeullimflower.post.converter;
 
+import com.meltingpot.baeullimflower.member.domain.Member;
 import com.meltingpot.baeullimflower.post.domain.Post;
 import com.meltingpot.baeullimflower.post.dto.PostRequestDto;
 import com.meltingpot.baeullimflower.post.dto.PostResponseDto;
@@ -12,12 +13,10 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 public class PostConverter {
-    public Post toPostEntity(PostRequestDto.PostCreateDto request) {
-
-        //작성자 정보 불러오기(이름만 필요)
+    public Post toPostEntity(PostRequestDto.PostCreateDto request, Member member) {
 
         Post post = Post.builder()
-                //.writer(writer)
+                .writer(member)
                 .email(request.getEmail())
                 .infoAgree(request.getInfoAgree())
                 .title(request.getTitle())
