@@ -40,11 +40,21 @@ public class ResultService {
         return resultConverter.toResultDto(result);
     }
 
+    public ResultResponseDto getResult(Long postId) {
+        Result result = findByPostId(postId);
+        return resultConverter.toResultDto(result);
+    }
+
     /* Transactional 함수들 */
 
     // 해당 청원글에 결과가 이미 작성되어 있는지 확인
-    @Transactional
+    @Transactional(readOnly = true)
     public boolean existsByPostId(Long postId) {
         return resultRepository.existsByPost_PostId(postId);
+    }
+
+    @Transactional(readOnly = true)
+    public Result findByPostId(Long postId) {
+        return resultRepository.findByPost_PostId(postId);
     }
 }
