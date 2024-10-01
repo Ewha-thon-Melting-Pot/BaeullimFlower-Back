@@ -21,7 +21,7 @@ public class Member{
     @Column(nullable = false, length = 16)
     private String name;
 
-    @Column(name = "stu_num", nullable = false, length = 16)
+    @Column(name = "student_num", nullable = false, length = 16)
     private String studentNum;
 
     @Enumerated(EnumType.STRING)
