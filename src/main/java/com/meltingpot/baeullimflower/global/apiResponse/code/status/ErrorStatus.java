@@ -35,7 +35,8 @@ public enum ErrorStatus implements BaseErrorCode {
     // 투표 관련 에러
 
     // 결과 관련 에러
-    ALREADY_EXIST_RESULT(HttpStatus.BAD_REQUEST, "RESULT4001", "해당 청원에 대한 논의 결과가 이미 존재합니다.");
+    ALREADY_EXIST_RESULT(HttpStatus.BAD_REQUEST, "RESULT4001", "해당 청원에 대한 논의 결과가 이미 존재합니다."),
+    MUST_BE_DISCUSSION(HttpStatus.BAD_REQUEST, "RESULT4002", "청원글의 상태가 '학생회 논의중'일때만 결과를 작성할 수 있습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

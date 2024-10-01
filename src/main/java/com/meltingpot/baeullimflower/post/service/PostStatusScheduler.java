@@ -1,5 +1,7 @@
 package com.meltingpot.baeullimflower.post.service;
 
+import com.meltingpot.baeullimflower.global.apiResponse.code.status.ErrorStatus;
+import com.meltingpot.baeullimflower.global.apiResponse.exception.GeneralException;
 import com.meltingpot.baeullimflower.post.Repository.PostRepository;
 import com.meltingpot.baeullimflower.post.domain.Post;
 import com.meltingpot.baeullimflower.post.domain.Status;
@@ -35,6 +37,15 @@ public class PostStatusScheduler {
             }
             postRepository.save(post);
         }
+    }
+
+    @Transactional
+    public void updatePostConclusion(Post post){
+        if(!post.getStatus().equals(Status.DISCUSSION)){
+            throw new GeneralException(ErrorStatus.MUST_BE_DISCUSSION);
+        }
+        post.updateStatus(Status.CONCLUSION);
+        postRepository.save(post);
     }
 }
 

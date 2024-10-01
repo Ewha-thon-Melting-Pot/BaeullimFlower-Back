@@ -6,6 +6,7 @@ import com.meltingpot.baeullimflower.member.domain.Member;
 import com.meltingpot.baeullimflower.member.service.MemberService;
 import com.meltingpot.baeullimflower.post.domain.Post;
 import com.meltingpot.baeullimflower.post.service.PostService;
+import com.meltingpot.baeullimflower.post.service.PostStatusScheduler;
 import com.meltingpot.baeullimflower.result.converter.ResultConverter;
 import com.meltingpot.baeullimflower.result.domain.Result;
 import com.meltingpot.baeullimflower.result.dto.ResultRequestDto;
@@ -22,6 +23,7 @@ public class ResultService {
     private final MemberService memberService;
     private final ResultConverter resultConverter;
     private final ResultRepository resultRepository;
+    private final PostStatusScheduler postStatusScheduler;
 
     public ResultResponseDto createResult(Long postId, ResultRequestDto requestDto) {
         // 결과를 작성한 관리자 및 청원글 가져오기
@@ -32,6 +34,9 @@ public class ResultService {
         if(existsByPostId(postId)){
             throw new GeneralException(ErrorStatus.ALREADY_EXIST_RESULT);
         }
+
+        // 해당 청원글 종료로 변경
+        postStatusScheduler.updatePostConclusion(post);
 
         // 결과 객체 생성 및 저장
         Result result = resultConverter.toResultEntity(requestDto, manager, post);
