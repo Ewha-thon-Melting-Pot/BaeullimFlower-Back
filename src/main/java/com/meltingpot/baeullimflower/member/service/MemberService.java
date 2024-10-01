@@ -75,13 +75,13 @@ public class MemberService {
     }
 
     // 현재 인증된(로그인한) 유저의 id를 찾아 반환
-    public static Long getCurrentMemberId(){
+    public static String getCurrentMemberId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication.getName() == null){
             throw new GeneralException(ErrorStatus.MEMBER_NOT_FOUND);
 //            throw new AuthenticationServiceException("인증된 사용자정보가 없습니다.");
         }
-        return Long.valueOf(authentication.getName());
+        return authentication.getName();
     }
 
 
