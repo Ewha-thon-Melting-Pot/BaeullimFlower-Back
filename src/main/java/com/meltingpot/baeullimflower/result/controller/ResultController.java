@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class ResultController {
     private final ResultService resultService;
 
+    // 논의결과 작성
     @PostMapping("/{postId}/result")
     public ResultResponseDto createResult(@PathVariable Long postId, @RequestBody ResultRequestDto requestDto){
         return ApiResponse.onCreateSuccess(resultService.createResult(postId,requestDto)).getResult();

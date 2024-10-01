@@ -28,7 +28,7 @@ public class ResultService {
         Member manager = memberService.findByStudentNum(MemberService.getCurrentMemberId());
         Post post = postService.findById(postId);
 
-        // 결과가 이미 작성된 청원글인지 확인
+        // 해당 청원글에 결과가 이미 작성되어 있는지 확인
         if(existsByPostId(postId)){
             throw new GeneralException(ErrorStatus.ALREADY_EXIST_RESULT);
         }
@@ -40,7 +40,9 @@ public class ResultService {
         return resultConverter.toResultDto(result);
     }
 
+    /* Transactional 함수들 */
 
+    // 해당 청원글에 결과가 이미 작성되어 있는지 확인
     @Transactional
     public boolean existsByPostId(Long postId) {
         return resultRepository.existsByPost_PostId(postId);
