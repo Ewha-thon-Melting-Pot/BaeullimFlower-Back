@@ -25,7 +25,7 @@ public class ResultService {
 
     public ResultResponseDto createResult(Long postId, ResultRequestDto requestDto) {
         // 결과를 작성한 관리자 및 청원글 가져오기
-        Member manager = memberService.findByStudentNum(MemberService.getCurrentMemberId().toString());
+        Member manager = memberService.findByStudentNum(MemberService.getCurrentMemberId());
         Post post = postService.findById(postId);
 
         // 결과가 이미 작성된 청원글인지 확인
