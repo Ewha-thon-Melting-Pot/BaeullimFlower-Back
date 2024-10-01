@@ -6,6 +6,7 @@ import com.meltingpot.baeullimflower.member.domain.Member;
 import com.meltingpot.baeullimflower.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,11 @@ public class Result extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
     private Member manager;
+
+    @Builder
+    public Result(String content, Post post, Member manager) {
+        this.content = content;
+        this.post = post;
+        this.manager = manager;
+    }
 }
